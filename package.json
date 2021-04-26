@@ -1,0 +1,13 @@
+{
+	"name": "discord_bot",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"type": "module",
+	"dependencies": {
+		"discord.js": "^12.5.3",
+		"dotenv": "^8.2.0",
+		"global": "^4.4.0",
+		"nodemon": "^2.0.7"
+	}
+}
