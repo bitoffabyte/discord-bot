@@ -4,6 +4,14 @@ const newPermNonMember = Discord.Permissions.ALL;
 import Team from '../models/Team.js';
 async function addTeam(msg, args) {
 	//create team and send team data to mongodb
+	if (args.length < 2 || args[0] !== 'create') {
+		return;
+	}
+
+	if (args.length > 2) {
+		msg.channel.send('Please keep team name to one word');
+		return;
+	}
 
 	var guild = msg.guild;
 	var teamCategory = msg.channel.parent || null;

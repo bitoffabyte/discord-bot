@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import addTeam from './commands/addTeam.js';
 import dotenv from 'dotenv';
 import db from './config/db.js';
+import joinTeam from './commands/joinTeam.js';
 const client = new Discord.Client();
 dotenv.config();
 db();
@@ -30,6 +31,9 @@ client.on('message', (msg) => {
 			// console.log(args);
 			// console.log(msg.guild.client);
 			addTeam(msg, args);
+		}
+		if (CMD_name === 'add') {
+			joinTeam(msg, args, client);
 		}
 	}
 });
