@@ -20,7 +20,7 @@ export default async function joinTeam(msg, args, client) {
 	// Check if user is already in a team
 
 	if (!msg.member.roles.cache.some((role) => role.name === 'inTeam')) {
-		msg.channel.send('You are not a team owner!');
+		msg.channel.send('You are not in any team');
 		return;
 	}
 
@@ -31,15 +31,22 @@ export default async function joinTeam(msg, args, client) {
 		msg.channel.send('Team does not exist');
 		return;
 	}
-
+	let full = false;
 	for (let iteration = 0; iteration < team.length; iteration++) {
 		// console.log('asdasdas');
 		console.log(team[iteration].owner.id);
 		if (team[iteration].owner.id === msg.author.id) {
 			roleID = team[iteration].id;
+			console.log(team[iteration].owner.id === msg.author.id);
 			isOwner = true;
+			if (team[iteration].members.length >= 3) {
+				full = true;
+			}
 			break;
 		}
+	}
+	if (full) {
+		msg.channel.send('Team Full');
 	}
 
 	if (!isOwner) {
@@ -56,8 +63,53 @@ export default async function joinTeam(msg, args, client) {
 		);
 		return;
 	}
-	msg.mentions.members.first().send('Hi there');
+	msg.mentions.members
+		.first()
+		.send(
+			`Hi ${msg.mentions.members.first()}, You have been invited to team ${teamName} by ${
+				msg.author
+			} react with 👍 to join `
+		)
+		.then((i) => {
+			i.awaitReactions(
+				(reaction, user) =>
+					user.id == msg.mentions.members.first().id &&
+					reaction.emoji.name == '👍',
+				{ max: 1, time: 60000 }
+			)
+				.then((collected) => {
+					if (collected.first().emoji.name == '👍') {
+						const role = msg.guild.roles.cache.find(
+							(role) => role.id === roleID
+						);
+						let rolee = msg.guild.roles.cache.find(
+							(r) => r.name === 'inTeam'
+						);
+
+						const b = msg.mentions.members.first();
+						msg.guild.member(b).roles.add(role);
+
+						msg.guild.member(b).roles.add(rolee);
+						console.log('after adding');
+						Team.findOneAndUpdate(
+							{ id: roleID },
+							{
+								$push: {
+									members: { id: b.id },
+								},
+							}
+						).catch((err) => console.log(err));
+						console.log(b.id, i.username);
+						i.reply('OK...');
+					}
+				})
+				.catch(() => {
+					i.reply('No reaction after 60 seconds, Invite cancelled!');
+				});
+		})
+		.catch((err) => console.log(err));
 }
+
 // client.on('messageReactionAdd', (reaction, user) => {
 // 	console.log(prettyFormat(user));
 // });
