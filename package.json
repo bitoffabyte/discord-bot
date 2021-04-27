@@ -4,6 +4,9 @@
 	"main": "index.js",
 	"license": "MIT",
 	"type": "module",
+	"scripts": {
+		"start": "npm start"
+	},
 	"dependencies": {
 		"discord.js": "^12.5.3",
 		"dotenv": "^8.2.0",
