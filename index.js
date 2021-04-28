@@ -37,7 +37,13 @@ client.on('message', (msg) => {
 			}
 			if (CMD_name === 'hi') {
 				const b = msg.author.id;
-				msg.channel.send(`aaa ${b}`);
+				msg.channel.send(`Hi @${msg.author} How are you?`);
+			}
+			if (CMD_name === 'rr') {
+				const b = msg.author.id;
+				msg.channel.send(
+					`https://tenor.com/view/rick-astley-rick-roll-dancing-dance-moves-gif-14097983`
+				);
 			}
 		}
 });
