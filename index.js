@@ -22,10 +22,10 @@ client.on('message', (msg) => {
 				.substring(prefix.length)
 				.split(/\s+/);
 
-			if (msg.author.username !== 'bitoffabyte') {
-				msg.channel.send(`Fuck you @${msg.author.username}`);
-				return;
-			}
+			// if (msg.author.username !== 'bitoffabyte') {
+			// 	msg.channel.send(`Fuck you @${msg.author.username}`);
+			// 	return;
+			// }
 			console.log(CMD_name);
 			if (CMD_name === 'help') {
 				console.log('sd');
