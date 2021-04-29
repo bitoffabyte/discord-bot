@@ -63,8 +63,7 @@ export default async function joinTeam(msg, args, client) {
 		);
 		return;
 	}
-	msg.mentions.members
-		.first()
+	msg.channel
 		.send(
 			`Hi ${msg.mentions.members.first()}, You have been invited to team ${teamName} by ${
 				msg.author
@@ -104,7 +103,9 @@ export default async function joinTeam(msg, args, client) {
 					}
 				})
 				.catch(() => {
-					i.reply('No reaction after 60 seconds, Invite cancelled!');
+					i.channel.send(
+						`No reaction after 60 seconds, Invite cancelled! ${msg.mentions.members.first()} `
+					);
 				});
 		})
 		.catch((err) => console.log(err));

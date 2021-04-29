@@ -48,18 +48,19 @@ async function addTeam(msg, args) {
 
 	// Create vc and tc
 
-	await guild.channels.create(args.join('-').toLowerCase(), {
+	const vc = await guild.channels.create(args.join('-').toLowerCase(), {
 		type: 'text',
 		topic: 'Planning',
 		parent: teamCategory,
 		permissionOverwrites: permissionOverwrites,
 	});
-	await guild.channels.create(teamName + ' VC', {
+	const tc = await guild.channels.create(teamName + ' VC', {
 		type: 'voice',
 		topic: 'Planning',
 		parent: teamCategory,
 		permissionOverwrites: permissionOverwrites,
 	});
+	console.log(vc.id, tc.id);
 
 	// Add Role
 
@@ -77,6 +78,8 @@ async function addTeam(msg, args) {
 			id: msg.author.id,
 			username: msg.author.username,
 		},
+		vcid: vc.id,
+		tcid: tc.id,
 	});
 	const createdTeam = await team.save();
 	console.log(createdTeam);

@@ -7,6 +7,12 @@ const TeamSchema = mongoose.Schema({
 	name: {
 		type: String,
 	},
+	vcid: {
+		type: String,
+	},
+	tcid: {
+		type: String,
+	},
 	owner: {
 		username: { type: String, required: true },
 		id: { type: String, required: true },
