@@ -37,7 +37,7 @@ export default async function deleteTeam(msg, args) {
 			msg.channel.send('Sorry you are not the owner of the team ');
 			return;
 		}
-		let rolee = msg.guild.roles.cache.find((r) => r.id === roleID);
+		let rolee = msg.guild.roles.cache.find((r) => r.id === roleID).delete();
 		const vcid = delTeam.vcid;
 		const tcid = delTeam.tcid;
 
@@ -48,6 +48,9 @@ export default async function deleteTeam(msg, args) {
 		let rolex = msg.guild.roles.cache.find((r) => r.name === 'inTeam');
 
 		guild.members.cache.get(msg.author.id).roles.remove(rolex);
+		members.map((i) => {
+			guild.members.cache.get(i.id).roles.remove(rolex);
+		});
 		msg.channel.send('Team Deleted!');
 	} catch (err) {
 		console.log(err);
