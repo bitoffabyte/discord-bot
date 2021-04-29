@@ -14,7 +14,8 @@ client.on('ready', () => {
 });
 
 client.on('message', (msg) => {
-	if (msg.author.bot) return;
+	// if (msg.author.bot) return;
+	console.log(msg.guild.members.cache);
 	if (msg.channel.name === 'create-team')
 		if (msg.content.startsWith(prefix)) {
 			const [CMD_name, ...args] = msg.content
@@ -62,6 +63,9 @@ client.on('message', (msg) => {
 				// console.log(args);
 				// console.log(msg.guild.client);
 				addTeam(msg, args);
+			}
+			if (CMD_name === 'id') {
+				msg.channel.send(msg.author.id);
 			}
 			if (CMD_name === 'add') {
 				joinTeam(msg, args, client);
