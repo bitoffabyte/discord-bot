@@ -8,7 +8,7 @@ export default async function deleteTeam(msg, args) {
 	try {
 		const team = await Team.find({ name: teamName });
 		if (team.length === 0) {
-			msg.channel.send('Team does not exist');
+			msg.reply('Team does not exist');
 			return;
 		}
 		let full = false;
@@ -30,7 +30,7 @@ export default async function deleteTeam(msg, args) {
 		}
 
 		if (!isOwner) {
-			msg.channel.send('Sorry you are not the owner of the team ');
+			msg.reply('Sorry you are not the owner of the team ');
 			return;
 		}
 		// console.log(roleID);
@@ -48,7 +48,7 @@ export default async function deleteTeam(msg, args) {
 			console.log(i.id);
 			guild.members.cache.get(i.id).roles.remove(rolex);
 		});
-		msg.channel.send('Team Deleted!');
+		msg.reply('Team Deleted!');
 	} catch (err) {
 		console.log(err);
 	}

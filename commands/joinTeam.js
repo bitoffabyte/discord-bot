@@ -10,7 +10,7 @@ export default async function joinTeam(msg, args, client) {
 	}
 
 	if (args.length > 2) {
-		msg.channel.send('Please add members one-by-one');
+		msg.reply('Please add members one-by-one');
 		return;
 	}
 
@@ -20,7 +20,7 @@ export default async function joinTeam(msg, args, client) {
 	// Check if user is already in a team
 
 	if (!msg.member.roles.cache.some((role) => role.name === 'inTeam')) {
-		msg.channel.send('You are not in any team');
+		msg.reply('You are not in any team');
 		return;
 	}
 
@@ -28,7 +28,7 @@ export default async function joinTeam(msg, args, client) {
 	const team = await Team.find({ name: teamName });
 	console.log(team);
 	if (team.length === 0) {
-		msg.channel.send('Team does not exist');
+		msg.reply('Team does not exist');
 		return;
 	}
 	let full = false;
@@ -46,11 +46,11 @@ export default async function joinTeam(msg, args, client) {
 		}
 	}
 	if (full) {
-		msg.channel.send('Team Full');
+		msg.reply('Team Full');
 	}
 
 	if (!isOwner) {
-		msg.channel.send('Sorry you are not the owner of the team ');
+		msg.reply('Sorry you are not the owner of the team ');
 		return;
 	}
 	if (
@@ -58,9 +58,7 @@ export default async function joinTeam(msg, args, client) {
 			.first()
 			.roles.cache.some((role) => role.name === 'inTeam')
 	) {
-		msg.channel.send(
-			`${msg.mentions.members.first()} is already in a team!`
-		);
+		msg.reply(`${msg.mentions.members.first()} is already in a team!`);
 		return;
 	}
 	msg.channel
@@ -121,7 +119,7 @@ export default async function joinTeam(msg, args, client) {
 
 // if (!myRole) {
 // 	console.log(myRole);
-// 	msg.channel.send('Could not find team. :cry:');
+// 	msg.reply('Could not find team. :cry:');
 // 	return;
 // }
 // msg.guild.member(msg.author).roles.add(myRole.id);

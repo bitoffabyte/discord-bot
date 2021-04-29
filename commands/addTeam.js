@@ -9,7 +9,7 @@ async function addTeam(msg, args) {
 	}
 
 	if (args.length > 2) {
-		msg.channel.send('Please keep team name to one word');
+		msg.reply('Please keep team name to one word');
 		return;
 	}
 
@@ -21,13 +21,13 @@ async function addTeam(msg, args) {
 	// Check if user is already in a team
 
 	if (msg.member.roles.cache.some((role) => role.name === 'inTeam')) {
-		msg.channel.send('You are already in a team!');
+		msg.reply('You are already in a team!');
 		return;
 	}
 
 	// Createteam role
 
-	msg.channel.send('Creating Team...');
+	msg.reply('Creating Team...');
 
 	var teamRole = await guild.roles
 		.create({
@@ -84,7 +84,7 @@ async function addTeam(msg, args) {
 	const createdTeam = await team.save();
 	console.log(createdTeam);
 
-	msg.channel.send('Team Created :sparkles:');
+	msg.reply('Team Created :sparkles:');
 	return Promise.resolve({ msg: 'Success!' });
 }
 

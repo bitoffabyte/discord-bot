@@ -24,13 +24,13 @@ client.on('message', (msg) => {
 				.split(/\s+/);
 
 			// if (msg.author.username !== 'bitoffabyte') {
-			// 	msg.channel.send(`Fuck you @${msg.author.username}`);
+			// 	msg.reply(`Fuck you @${msg.author.username}`);
 			// 	return;
 			// }
 			console.log(CMD_name);
 			if (CMD_name === 'help') {
 				console.log('sd');
-				msg.channel.send({
+				msg.reply({
 					embed: {
 						color: 3447003,
 						title: 'Commands:',
@@ -65,22 +65,22 @@ client.on('message', (msg) => {
 				addTeam(msg, args);
 			}
 			if (CMD_name === 'id') {
-				msg.channel.send(msg.author.id);
+				msg.reply(msg.author.id);
 			}
 			if (CMD_name === 'add') {
 				joinTeam(msg, args, client);
 			}
 			if (CMD_name === 'hi') {
 				const b = msg.author.id;
-				msg.channel.send(`Hi @${msg.author} How are you?`);
+				msg.reply(`Hi @${msg.author} How are you?`);
 			}
 			if (CMD_name === 'rr') {
 				if (msg.author.id == '668689189247909898')
-					msg.channel.send(
+					msg.reply(
 						`https://tenor.com/view/rick-astley-rick-roll-dancing-dance-moves-gif-14097983`
 					);
 				else {
-					msg.channel.send(`I'm sorry! Are you Rick Ashtley?`);
+					msg.reply(`I'm sorry! Are you Rick Ashtley?`);
 				}
 			}
 			if (CMD_name === 'delete') {
