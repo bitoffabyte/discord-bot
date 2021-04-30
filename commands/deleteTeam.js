@@ -50,7 +50,9 @@ export default async function deleteTeam(msg, args, client) {
 					return;
 				}
 				if (args.length !== team[iteration].members.length) {
-					msg.reply('Make sure you tag every member of your team!');
+					msg.reply(
+						'Make sure you tag every member of your team!\neveryone except the owner'
+					);
 					return;
 				}
 
