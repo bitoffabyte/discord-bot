@@ -8,7 +8,7 @@ export default async function joinTeam(msg, args, client) {
 	console.log(args);
 	if (args.length < 2) {
 		msg.reply(
-			'Invalid command! Please write it as \n.add team_name @member'
+			'Invalid command! Please write it as \n*add team_name @member'
 		);
 		return;
 	}

@@ -41,7 +41,7 @@ export default async function deleteTeam(msg, args, client) {
 				members.map((i) => {
 					if (!beep.includes(i.id)) {
 						msg.reply(
-							'Make sure you only tag members of your own team!'
+							'Make sure you only tag members of your own team! and all the members at once!'
 						);
 						f = true;
 					}

@@ -54,9 +54,9 @@ client.on('message', (msg) => {
 							},
 							{
 								name:
-									'*delete team_name @member1 @member2 @member3 (Just mention all the team members!',
+									'*delete team_name @member1 @member2 @member3 ',
 								value:
-									'- Deletes team\n- Only team leader can delete team!',
+									'- Deletes team\n- Only team leader can delete team!\n Make sure you write all members in one command (without the owner)',
 								inline: false,
 							},
 						],
