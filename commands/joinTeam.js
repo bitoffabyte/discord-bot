@@ -5,7 +5,11 @@ const newPermNonMember = Discord.Permissions.ALL;
 import Team from '../models/Team.js';
 
 export default async function joinTeam(msg, args, client) {
+	console.log(args);
 	if (args.length < 2) {
+		msg.reply(
+			'Invalid command! Please write it as \n.add team_name @member'
+		);
 		return;
 	}
 
@@ -24,6 +28,15 @@ export default async function joinTeam(msg, args, client) {
 		return;
 	}
 
+	if (
+		msg.mentions.members
+			.first()
+			.roles.cache.some((role) => role.name === 'inTeam')
+	) {
+		msg.reply(`${msg.mentions.members.first()} is already in a team!`);
+		return;
+	}
+
 	const teamName = args[0];
 	const team = await Team.find({ name: teamName });
 	console.log(team);
@@ -39,6 +52,7 @@ export default async function joinTeam(msg, args, client) {
 			roleID = team[iteration].id;
 			console.log(team[iteration].owner.id === msg.author.id);
 			isOwner = true;
+			console.log(team[iteration].members.length);
 			if (team[iteration].members.length >= 3) {
 				full = true;
 			}
@@ -47,20 +61,14 @@ export default async function joinTeam(msg, args, client) {
 	}
 	if (full) {
 		msg.reply('Team Full');
+		return;
 	}
 
 	if (!isOwner) {
 		msg.reply('Sorry you are not the owner of the team ');
 		return;
 	}
-	if (
-		msg.mentions.members
-			.first()
-			.roles.cache.some((role) => role.name === 'inTeam')
-	) {
-		msg.reply(`${msg.mentions.members.first()} is already in a team!`);
-		return;
-	}
+
 	msg.channel
 		.send(
 			`Hi ${msg.mentions.members.first()}, You have been invited to team ${teamName} by ${
@@ -79,13 +87,16 @@ export default async function joinTeam(msg, args, client) {
 						const role = msg.guild.roles.cache.find(
 							(role) => role.id === roleID
 						);
+						if (role == null) {
+							msg.channel.send(`${b} Team has been deleted!`);
+							return;
+						}
 						let rolee = msg.guild.roles.cache.find(
 							(r) => r.name === 'inTeam'
 						);
 
 						const b = msg.mentions.members.first();
 						msg.guild.member(b).roles.add(role);
-
 						msg.guild.member(b).roles.add(rolee);
 						console.log('after adding');
 						Team.findOneAndUpdate(
@@ -97,7 +108,9 @@ export default async function joinTeam(msg, args, client) {
 							}
 						).catch((err) => console.log(err));
 						console.log(b.id, i.username);
-						i.reply('OK...');
+						i.channel.send(
+							`${b} has been added to team ${teamName}`
+						);
 					}
 				})
 				.catch(() => {

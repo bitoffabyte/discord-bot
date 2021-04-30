@@ -4,10 +4,12 @@ import dotenv from 'dotenv';
 import db from './config/db.js';
 import joinTeam from './commands/joinTeam.js';
 import deleteTeam from './commands/deleteTeam.js';
+import asss from 'pretty-format';
+
 const client = new Discord.Client();
 dotenv.config();
 db();
-const prefix = '.';
+const prefix = '*';
 
 client.on('ready', () => {
 	console.log(`loggedin as ${client.user.tag}`);
@@ -15,7 +17,9 @@ client.on('ready', () => {
 
 client.on('message', (msg) => {
 	// if (msg.author.bot) return;
-	console.log(msg.guild.members.cache);
+	// console.log(msg.guild.members.cache.get('<@!668689189247909898>'));
+	// client.users.fetch('697875508242677811').then((meme) => console.log(meme));
+	// console.log(asss(msg.mentions.members.array()));
 	if (msg.channel.name === 'create-team')
 		if (msg.content.startsWith(prefix)) {
 			const [CMD_name, ...args] = msg.content
@@ -36,20 +40,21 @@ client.on('message', (msg) => {
 						title: 'Commands:',
 						fields: [
 							{
-								name: '.team create <team_name>',
+								name: '.team create team_name',
 								value:
 									'- Creates your team.\n- Team name should be one worded!',
 
 								inline: false,
 							},
 							{
-								name: '.add <team_name> @member',
+								name: '.add team_name @member',
 								value:
 									'- Adds members to your team\n- Add one member at a time!\n- Only team leader can add members',
 								inline: false,
 							},
 							{
-								name: '.delete <team_name>',
+								name:
+									'.delete team_name @member1 @member2 @member3 (Just mention all the team members!',
 								value:
 									'- Deletes team\n- Only team leader can delete team!',
 								inline: false,
@@ -57,6 +62,9 @@ client.on('message', (msg) => {
 						],
 					},
 				});
+			}
+			if (CMD_name === 'create') {
+				msg.reply('Invalid command! Did you mean .team create?');
 			}
 			if (CMD_name === 'team') {
 				// create team
@@ -84,7 +92,7 @@ client.on('message', (msg) => {
 				}
 			}
 			if (CMD_name === 'delete') {
-				deleteTeam(msg, args);
+				deleteTeam(msg, args, client);
 			}
 		}
 });

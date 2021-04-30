@@ -5,6 +5,7 @@ import Team from '../models/Team.js';
 async function addTeam(msg, args) {
 	//create team and send team data to mongodb
 	if (args.length < 2 || args[0] !== 'create') {
+		msg.reply('Please enter the right command .team create team_name');
 		return;
 	}
 
@@ -40,7 +41,7 @@ async function addTeam(msg, args) {
 			reason: msg.author.username + ' created a team.',
 		})
 		.catch((err) => console.error);
-	console.log('reamrole', teamRole.id);
+	// console.log('reamrole', teamRole.id);
 	var permissionOverwrites = [
 		{ id: teamRole, allow: newPermMember, type: 'role' },
 		{ id: guild.roles.everyone, deny: newPermNonMember, type: 'role' },
@@ -60,14 +61,18 @@ async function addTeam(msg, args) {
 		parent: teamCategory,
 		permissionOverwrites: permissionOverwrites,
 	});
-	console.log(vc.id, tc.id);
+	// console.log(vc.id, tc.id);
 
 	// Add Role
 
 	let role = msg.guild.roles.cache.find((r) => r.name === 'inTeam');
-	guild.member(msg.author).roles.add(role);
+	// console.log(role);
+	guild
+		.member(msg.author)
+		.roles.add(role)
+		.catch((err) => console.log(err));
 	guild.member(msg.author).roles.add(teamRole);
-	console.log(msg.author.id, msg.author.username);
+	// console.log(msg.author.id, msg.author.username);
 
 	// Update Database
 
@@ -82,7 +87,7 @@ async function addTeam(msg, args) {
 		tcid: tc.id,
 	});
 	const createdTeam = await team.save();
-	console.log(createdTeam);
+	// console.log(createdTeam);
 
 	msg.reply('Team Created :sparkles:');
 	return Promise.resolve({ msg: 'Success!' });

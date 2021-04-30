@@ -1,14 +1,24 @@
 import Discord from 'discord.js';
 import Team from '../models/Team.js';
+export default async function deleteTeam(msg, args, client) {
+	if (args.length > 4) {
+		msg.reply(
+			'Please write .delete <team_name> @member1 @member2 @member3  (make sure you mention all the members)'
+		);
+		return;
+	}
+	let rolex = msg.guild.roles.cache.find((r) => r.name === 'inTeam');
 
-export default async function deleteTeam(msg, args) {
-	if (args.length > 1) return;
 	const teamName = args[0];
+	args.shift();
+	const beep = args.join(' ');
 	var guild = msg.guild;
 	try {
 		const team = await Team.find({ name: teamName });
 		if (team.length === 0) {
-			msg.reply('Team does not exist');
+			msg.reply(
+				'Team does not exist, make sure you provide the correct team name'
+			);
 			return;
 		}
 		let full = false;
@@ -25,6 +35,25 @@ export default async function deleteTeam(msg, args) {
 				}
 				members = team[iteration].members;
 				delTeam = team[iteration];
+				console.log(args);
+
+				let f = false;
+				members.map((i) => {
+					if (!beep.includes(i.id)) {
+						msg.reply(
+							'Make sure you only tag members of your own team!'
+						);
+						f = true;
+					}
+				});
+				if (f) {
+					return;
+				}
+				if (args.length !== team[iteration].members.length) {
+					msg.reply('Make sure you tag every member of your team!');
+					return;
+				}
+
 				break;
 			}
 		}
@@ -41,13 +70,20 @@ export default async function deleteTeam(msg, args) {
 		await Team.deleteOne(delTeam);
 		msg.guild.channels.cache.get(vcid).delete();
 		msg.guild.channels.cache.get(tcid).delete();
-		let rolex = msg.guild.roles.cache.find((r) => r.name === 'inTeam');
 
 		guild.members.cache.get(msg.author.id).roles.remove(rolex);
-		members.map((i) => {
-			console.log(i.id);
-			guild.members.cache.get(i.id).roles.remove(rolex);
-		});
+		if (args.length === 1) {
+			msg.mentions.members.array()[0].roles.remove(rolex);
+		}
+		if (args.length === 2) {
+			msg.mentions.members.array()[1].roles.remove(rolex);
+			msg.mentions.members.array()[0].roles.remove(rolex);
+		}
+		if (args.length === 3) {
+			msg.mentions.members.array()[0].roles.remove(rolex);
+			msg.mentions.members.array()[1].roles.remove(rolex);
+			msg.mentions.members.array()[2].roles.remove(rolex);
+		}
 		msg.reply('Team Deleted!');
 	} catch (err) {
 		console.log(err);
