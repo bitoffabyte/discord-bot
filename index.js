@@ -64,7 +64,7 @@ client.on('message', (msg) => {
 				});
 			}
 			if (CMD_name === 'create') {
-				msg.reply('Invalid command! Did you mean .team create?');
+				msg.reply('Invalid command! Did you mean *team create?');
 			}
 			if (CMD_name === 'team') {
 				// create team

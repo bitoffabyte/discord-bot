@@ -5,7 +5,7 @@ import Team from '../models/Team.js';
 async function addTeam(msg, args) {
 	//create team and send team data to mongodb
 	if (args.length < 2 || args[0] !== 'create') {
-		msg.reply('Please enter the right command .team create team_name');
+		msg.reply('Please enter the right command *team create team_name');
 		return;
 	}
 

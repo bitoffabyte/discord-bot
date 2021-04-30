@@ -3,7 +3,7 @@ import Team from '../models/Team.js';
 export default async function deleteTeam(msg, args, client) {
 	if (args.length > 4) {
 		msg.reply(
-			'Please write .delete <team_name> @member1 @member2 @member3  (make sure you mention all the members)'
+			'Please write *delete <team_name> @member1 @member2 @member3  (make sure you mention all the members)'
 		);
 		return;
 	}
