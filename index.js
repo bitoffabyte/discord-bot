@@ -40,21 +40,21 @@ client.on('message', (msg) => {
 						title: 'Commands:',
 						fields: [
 							{
-								name: '.team create team_name',
+								name: '*team create team_name',
 								value:
 									'- Creates your team.\n- Team name should be one worded!',
 
 								inline: false,
 							},
 							{
-								name: '.add team_name @member',
+								name: '*add team_name @member',
 								value:
 									'- Adds members to your team\n- Add one member at a time!\n- Only team leader can add members',
 								inline: false,
 							},
 							{
 								name:
-									'.delete team_name @member1 @member2 @member3 (Just mention all the team members!',
+									'*delete team_name @member1 @member2 @member3 (Just mention all the team members!',
 								value:
 									'- Deletes team\n- Only team leader can delete team!',
 								inline: false,

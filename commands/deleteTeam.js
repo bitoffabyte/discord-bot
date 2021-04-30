@@ -68,8 +68,14 @@ export default async function deleteTeam(msg, args, client) {
 		const tcid = delTeam.tcid;
 
 		await Team.deleteOne(delTeam);
-		msg.guild.channels.cache.get(vcid).delete();
-		msg.guild.channels.cache.get(tcid).delete();
+		msg.guild.channels.cache
+			.get(vcid)
+			.delete()
+			.catch((er) => console.log(er));
+		msg.guild.channels.cache
+			.get(tcid)
+			.delete()
+			.catch((er) => console.log(er));
 
 		guild.members.cache.get(msg.author.id).roles.remove(rolex);
 		if (args.length === 1) {
